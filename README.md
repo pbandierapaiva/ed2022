@@ -1,2 +1,6 @@
 # ed2022
-UC de estrutura de dados
+UC de Estrutura de Dados 2022
+
+Este repositório contém códigos-fonte apresentados na UC de Estrutura de Dados
+
+
