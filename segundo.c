@@ -10,10 +10,11 @@ int main() {
     printf("Lendo %d valores\n", q);
 
     for(int i=0; i < q; i++ ) {
+        printf("%d > ",i);
         scanf("%d", &val);
         acum += val;
     }
 
-    printf("%f", (float)acum/q  );
+    printf("\nA média é: %f \n\n", (float)acum/q  );
 
 }
