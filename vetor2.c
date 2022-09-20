@@ -3,40 +3,83 @@
 #include <stdio.h>
 #include <math.h>
 
-#define MAXLEN 5
+#define MAXLEN 50
 
-int main() {
-        int a[MAXLEN], b[MAXLEN];
-        int junto[MAXLEN*2];
-        int num;
-        
-        printf("Entre com vetor A: \n");  
-        for( int i=0; i<MAXLEN; i++) {
+int leVetor( int *vet ) {
+        int n, num;
+
+        while (1) {
+                printf("Entre com tamanho do vetor: ");
+                scanf("%d", &n);
+                if( n>MAXLEN ) {
+                        printf("Número de elementos maior que o máximo permitido (%d)\n", MAXLEN);
+                        continue;
+                }
+                break;
+        }
+        printf("Entre com vetor: \n");  
+        for( int i=0; i<n; i++) {
                 printf("> ");
                 scanf("%d", &num);
                 if(i>0) {
-                	if(num>a[i-1]) {
-                		printf("Os valores têm que ser ordenados\n");
+                	if(num <= vet[i-1]) {
+                		printf("Os valores têm que ser ordenados e distintos\n");
                 		return(-1);
                 		}
                 	}
-                a[i] = num;
+                vet[i] = num;
                 }
-        printf("Entre com vetor B: \n");      
-        for( int i=0; i<MAXLEN; i++) {
-                printf("> ");
-                scanf("%d", &num);
-              	if(i>0) {
-              		if(num>a[i-1]) {
-                		printf("Os valores têm que ser ordenados\n");
-                		return(-1);
-                		}
-                	}
-                b[i] = num;
-                }                
-                
-                
-
-
+        return n;
 }
 
+void imprimeVetor(int *v, int n) {
+        printf("\n");
+        for (int i=0; i<n; i++)
+                printf("%d ", v[i]);
+        printf("\n");
+}
+
+int main() {
+        int a[MAXLEN], b[MAXLEN];
+        int juntos[MAXLEN*2];
+        int nA, nB;
+        int x=0, ia=0, ib=0;
+         
+        nA = leVetor( a );
+        nB = leVetor( b );
+
+        imprimeVetor(a,nA);
+        imprimeVetor(b,nB);
+
+        while( ia < nA || ib < nB ) {
+                if(ia==nA) {
+                        for(;ib<nB;ib++) {
+                                juntos[x] = b[ib];
+                                ib++;
+                                x++;
+                        }
+                        break;
+                }
+                if(ib==nB) {
+                        for(;ia<nA;ia++) {
+                                juntos[x] = a[ia];
+                                ia++;
+                                x++;
+                        }
+                        break;
+                }
+                if(a[ia] == b[ib]){
+                        juntos[x] = a[ia];
+                        x++; ia++; ib++;
+                }
+                else if(a[ia] < b[ib]) {
+                        juntos[x] = a[ia];
+                        x++; ia++;
+                }
+                else {  // a[ia] >  b[ib]
+                        juntos[x] = b[ib];
+                        x++, ib++;
+                }
+        }    
+        imprimeVetor(juntos, x);
+}
