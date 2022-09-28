@@ -1,4 +1,5 @@
-// 
+// Convertendo string para float
+//
 #include <stdio.h>
 #include <stdlib.h>
 	

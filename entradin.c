@@ -1,10 +1,9 @@
 // Função para entrada de valores numéricos (float)
-// em um vetor alocado estaticamente
+// em um vetor alocado DINAMICAMENTE
 
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAXVAL 100
 
 void leNumero( float *f ) {
 	char entrada[10];
@@ -25,21 +24,21 @@ void leNumero( float *f ) {
 }
 
 int main() {
-	int n;
-	char entra[5];
+	unsigned int n;
+	char entra[100];
 	
-	float vet[MAXVAL];
+	float *vet;  //
 	float x;
 
 	printf("\nEntre com número de valores: ");
-	// scanf("%d", &n);
-	fgets(entra, 5, stdin);
+	fgets(entra, 100, stdin);
 	n = atoi(entra);
-	
-	if( n>MAXVAL ) {
-		printf("\nNúmero máximo de valores %d\n\n",MAXVAL);
-		return -1;
-		}
+
+    vet = malloc( n * sizeof(float) ); //
+    if( ! vet ) {    // vet==NULL
+        printf("\nErro de alocação de memória.\n");
+        exit(-1);
+    }
 
 	for( int i=0; i<n; i++)
 		leNumero( vet+i );
@@ -49,5 +48,6 @@ int main() {
 		
 	printf("\n");
 
+    free(vet);
 }
 
