@@ -1,4 +1,4 @@
-// Programa para mostrar a utilização de STRUCT e TYPDEF em C
+// Programa para mostrar a utilização de STRUCT e TYPEDEF em C
 
 #include <stdio.h>
 #include <stdlib.h>
