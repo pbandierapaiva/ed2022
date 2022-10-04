@@ -6,8 +6,6 @@
 
 #define MAXLIN 5000
 
-
-
 int main() {
     FILE *fp, *outfp;
     char linha[MAXLIN];
@@ -16,7 +14,8 @@ int main() {
     short int n;
     int *tamMaxCpos;
     int *pInt;
-    
+	int numLinhas=0;
+
     fp = fopen("/home/pub/ed/Cadastro.csv", "r");
     outfp = fopen("cadastro.h", "w");
     if( !fp || !outfp) {   // fp==NULL => Erro de abertura
@@ -28,8 +27,8 @@ int main() {
     
     // Lê a primeira linha
     fgets( linha, MAXLIN, fp );
-    // extrai e imprime os nomes dos campos e seus respectivos índices
 
+    // extrai e imprime os nomes dos campos e seus respectivos índices
     p1 = linha;
     while( *p1 != '\0' ) {
 
@@ -61,35 +60,36 @@ int main() {
     for(int i=0; i<conta; i++ ) tamMaxCpos[i]=0;
     
     while( !feof(fp) ) {	
-	fgets( linha, MAXLIN, fp );
-    	n = 0;
-	p1 = linha;
-	while( *p1 != '\0' ) {
-
-	    if( *p1 == '"' ) {
-	    	p1++;
-	    	p2 = p1;
-	    	}
-	    while( *p2 != '"' ) 
-	    	p2++;
-	    *p2='\0';
-		    
-	    if( strlen(p1) > tamMaxCpos[n] ) {
-	    	tamMaxCpos[n] = strlen(p1);
-	    	}
-	    n++;
-	    do {
-	    	p2++;
-	    } while( *p2 !='"' &&  *p2 !='\0' );
-	    p1 = p2;
-	}
+		fgets( linha, MAXLIN, fp );
+		numLinhas++;
+		n = 0;
+		p1 = linha;
+		while( *p1 != '\0' ) {
+			if( *p1 == '"' ) {
+				p1++;
+				p2 = p1;
+				}
+			while( *p2 != '"' ) 
+				p2++;
+			*p2='\0';
+			if( strlen(p1) > tamMaxCpos[n] ) {
+				tamMaxCpos[n] = strlen(p1);
+				}
+			n++;
+			do {
+				p2++;
+			} while( *p2 !='"' &&  *p2 !='\0' );
+			p1 = p2;
+		}
     } // lendo arquivo linha a linha
     
+	fputs("\n\ntypedef  struct { ", outfp);
     for(int i=0; i<conta; i++)
-    	printf("\n%d %d",i, tamMaxCpos[i]);
-    	
-    printf("\n");
+		fprintf(outfp, "\n\tchar CPO_%d[%d];",i, tamMaxCpos[i]+1);
+	
+	fputs("\n\t} REGISTRO;", outfp);
 
+	printf("Número de linhas lidas %d", numLinhas);
 }
 
 
