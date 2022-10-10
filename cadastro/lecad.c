@@ -17,7 +17,7 @@ int main() {
 	int numLinhas=0;
 
     fp = fopen("/home/pub/ed/Cadastro.csv", "r");
-    outfp = fopen("cadastro.h", "w");
+    outfp = fopen("pre-cadastro.h", "w");
     if( !fp || !outfp) {   // fp==NULL => Erro de abertura
         printf("Erro de abertura do arquivo");
         exit(-1);
@@ -83,7 +83,7 @@ int main() {
 		}
     } // lendo arquivo linha a linha
     
-	fputs("\n\ntypedef  struct { ", outfp);
+    fputs("\n\ntypedef  struct { ", outfp);
     for(int i=0; i<conta; i++)
 		fprintf(outfp, "\n\tchar CPO_%d[%d];",i, tamMaxCpos[i]+1);
 	

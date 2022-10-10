@@ -1,7 +1,4 @@
-// Arquivo construido a partir do pre-cadastro.h
-//
-
-#define MAXLIN 800
+// Arquivo gerado automaticamente usando lecad
 
 
 #define Id_SERVIDOR_PORTAL	0
