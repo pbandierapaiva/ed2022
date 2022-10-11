@@ -5,14 +5,21 @@
 
 #include "cadastro.h"
 
-int pegaCampo( char *, int, char * );
-
-int main(){   
+int main(int argc, char **argv){   
 	FILE *fp;
 	char lin[MAXLIN];
 	char texto[80];
 	char orglotacao[80];
+	char uorglotacao[80];
+
 	char nome[80];
+	char busca[80];
+
+	if( argc!=2 ) {
+		printf("\nUso: %s \"Nome a buscar\" \n\n",argv[0]);
+		exit(-1);
+	}	
+	paraMaiusculas( argv[1], busca );
 
 	fp = fopen("/home/pub/ed/Cadastro.csv", "r");
 	if( !fp ) {
@@ -23,11 +30,12 @@ int main(){
 	fgets(lin, MAXLIN, fp);
 	while( !feof(fp) ) {
 		fgets(lin, MAXLIN, fp);
-		pegaCampo( lin, UORG_LOTACAO, texto );
-		if( !strcmp( texto, "CSP-DEPTO DE INFORMATICA EM SAUDE") ){
-			pegaCampo(lin, UORG_LOTACAO, orglotacao);
-		 	pegaCampo(lin, NOME, nome);
-			printf("\n%s\t%s\n", nome,  orglotacao);
+		pegaCampo( lin, NOME, nome );
+		if( strstr( nome, busca) ){
+			pegaCampo(lin, ORG_LOTACAO, orglotacao);
+			pegaCampo(lin, UORG_LOTACAO, uorglotacao);
+			printf("\n%s\t%s\t%s\n", nome,  
+					orglotacao, uorglotacao);
 		}
 
 	}

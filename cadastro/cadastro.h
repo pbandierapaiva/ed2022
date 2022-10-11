@@ -1,7 +1,10 @@
-// Arquivo construido a partir do pre-cadastro.h
-//
+// Arquivo gerado automaticamente usando lecad
 
-#define MAXLIN 800
+#define MAXLIN 900
+
+// protótipos de funções
+int pegaCampo( char *, int, char * );
+void paraMaiusculas(char *, char *);
 
 
 #define Id_SERVIDOR_PORTAL	0
