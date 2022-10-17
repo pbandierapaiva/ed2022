@@ -1,13 +1,8 @@
-// Cria arquivo de índice
+// Cria arquivo de índice "Cadastro.ndx"
 #include <stdio.h>
 #include <string.h>
 #include "cadastro.h"
 
-
-typedef struct  {
-    char nome[80];
-    unsigned long int offset;
-} REGIND;
 
 int main() {
     FILE *infp, *outfp;
@@ -17,7 +12,6 @@ int main() {
     int contador = 0;
 
     regind.offset=0;
-    strcpy( regind.nome, "XXXXXXXXXXXXXX");
 
     infp = fopen("/home/pub/ed/Cadastro.csv", "r");
     outfp = fopen("Cadastro.ndx", "w");

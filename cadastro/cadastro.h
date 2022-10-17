@@ -6,6 +6,13 @@
 int pegaCampo( char *, int, char * );
 void paraMaiusculas(char *, char *);
 
+// Registro para indexação
+typedef struct  {
+    char nome[80];
+    unsigned long int offset;
+} REGIND;
+
+
 
 #define Id_SERVIDOR_PORTAL	0
 #define NOME	1

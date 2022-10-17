@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #include "cadastro.h"
 
@@ -11,6 +12,8 @@ int main(int argc, char **argv){
 	char texto[80];
 	char orglotacao[80];
 	char uorglotacao[80];
+	
+	long int inicio;
 
 	char nome[80];
 	char busca[80];
@@ -20,7 +23,10 @@ int main(int argc, char **argv){
 		exit(-1);
 	}	
 	paraMaiusculas( argv[1], busca );
-
+	
+	// Inicia cronometro
+	inicio = time(NULL);
+		
 	fp = fopen("/home/pub/ed/Cadastro.csv", "r");
 	if( !fp ) {
 		printf("\nErro de abertura de arquivo.\n\n");
@@ -39,6 +45,8 @@ int main(int argc, char **argv){
 		}
 
 	}
+	printf("\nTempo: %lds\n\n",  time(NULL) - inicio);
+
 	return 0;
 }
 
