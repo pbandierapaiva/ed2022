@@ -3,13 +3,30 @@
 #include <string.h>
 #include <stdlib.h>
 
-typedef struct No {
-	char nome[80];
-	struct No *prox;
-} NO;
+#include "listasl.h"
+
+int removeNo( NO **head, NO *noDel ) {
+	NO *ptr;
+	
+	ptr = *head;
+	if(!ptr) return 0; //lista vazia
+	if(ptr==noDel) {
+		*head = ptr->prox;
+		free(noDel);
+	}
+	while( ptr->prox != noDel && ptr->prox != NULL){
+		ptr = ptr->prox;	
+		}
+	if( !ptr->prox )
+		return 0;
+	else {
+		ptr->prox = noDel->prox;
+		free(noDel);
+	}
+}
 
 void insereNo( NO **head, char *dado ) {
-	NO *no;	
+	NO *no = NULL;	
 
 	no = malloc( sizeof(NO) );
 	if( !no ) {
@@ -42,10 +59,9 @@ void imprimeLista( NO *head ) {
 	}	
 
 int main() {
-	NO *cabeca;
+	NO *cabeca = NULL;  // Cria lista vazia
 	char nome[80];
 	
-	cabeca = NULL;
 	
 	while( 1 ) {
 		printf("\nEntre com um nome (FIM termina): ");
