@@ -3,9 +3,9 @@
 #include <string.h>
 #include <stdlib.h>
 
-typedef struct {
+typedef struct No {
 	char nome[80];
-	NO *prox;
+	struct No *prox;
 } NO;
 
 void insereNo( NO **head, char *dado ) {
@@ -14,7 +14,7 @@ void insereNo( NO **head, char *dado ) {
 	no = malloc( sizeof(NO) );
 	if( !no ) {
 		printf("\nErro de alocação de memória\n\n");
-		return -1;
+		return;
 		}
 	strcpy( no->nome, dado );
 	no->prox = NULL;	
