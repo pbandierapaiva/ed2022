@@ -104,4 +104,4 @@ typedef  struct {
 	char CPO_40[21];
 	char CPO_41[21];
 	char CPO_42[3];
-	} REGISTRO;
+	} REGCSV;
