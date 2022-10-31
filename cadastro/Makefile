@@ -3,8 +3,7 @@
 
 CC = gcc
 # para DEBUG...
-# OPT = -g
-OPT = 
+OPT = -g
 
 criaindice : criaindice.o	util.o
 	$(CC)  criaindice.o util.o -o criaindice

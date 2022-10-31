@@ -27,9 +27,16 @@ void push( NO **head, REGISTRO *r ) {    // push
         printf("Erro de alocação de memória.\n\n");
         exit(-1);
     }
-    strcpy(novoNo->reg.nome, r->nome);
-	strcpy(novoNo->reg.uorglotacao, r->uorglotacao);
-    strcpy(novoNo->reg.orglotacao, r->orglotacao);
+    
+	// cópia de REGISTRO, um string de cada vez
+	//strcpy(novoNo->reg.nome, r->nome);
+	//strcpy(novoNo->reg.uorglotacao, r->uorglotacao);
+    //strcpy(novoNo->reg.orglotacao,	r->orglotacao);
+
+	// alternativa à cópia string a string da estrutura
+	memcpy( novoNo, r, sizeof(NO) );
+
+
     novoNo->prox = NULL;
 
     if(*head!=NULL) {  // Pilha vazia
@@ -53,7 +60,16 @@ void pop( NO **head, REGISTRO *r ) {
     free(p);
 }
 
+int conta( NO *head ) {
+	int i = 0;
+	NO *p = head;
 
+	while( p ) {
+		i++;
+		p = p->prox;
+	}
+	return i;
+}
 
 int main() {
     FILE *fp;
@@ -64,6 +80,7 @@ int main() {
 	char orglotacao[81];
 	char lotacaoEncontrada[80];
 	char nome[80];
+	int contador;
     REGISTRO r;
 	NO *pilha=NULL;
 
@@ -75,7 +92,6 @@ int main() {
 		p++;
 	}
 	*p = '\0';
-
 
     fp = fopen("/home/pub/ed/Cadastro.csv", "r");
     if( !fp ) {   // fp==NULL => Erro de abertura
@@ -99,6 +115,7 @@ int main() {
 		}
 	}
 
+	contador = conta(pilha);
 	while(1) {
 		pop(&pilha, &r);
 		if( strcmp(r.nome,"")==0 ) { //fim da pilha
@@ -107,6 +124,7 @@ int main() {
 		printf("%s %s %s\n", r.nome, r.orglotacao, r.uorglotacao);
 	}
 
+	printf("Número de registros encontrados: %d\n\n", contador);
 
 }
 
