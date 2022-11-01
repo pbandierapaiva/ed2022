@@ -1,11 +1,13 @@
-// fila.c
-// implementa uma fila utilizando a ED de uma lista simplesmente ligada (listasl)
+// filadl.c
+// implementa uma fila utilizando a ED 
+// de uma lista DUPLAMENTE ligada (listasl)
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
 
-#include "listasl.h"
+#include "listadl.h"
 
 
 void enfileira( NO **head, char *novoNome ) {    // enqueue
@@ -13,6 +15,7 @@ void enfileira( NO **head, char *novoNome ) {    // enqueue
 	
 	novoNo = malloc( sizeof(NO) );
 	novoNo->prox = NULL;
+    novoNo->ant = NULL;
 	strcpy(novoNo->nome, novoNome);
 	
 	p = *head;
@@ -24,49 +27,56 @@ void enfileira( NO **head, char *novoNome ) {    // enqueue
 		p = p->prox;
 		}
 	p->prox = novoNo;
+    novoNo->ant = p;
 }
 
 void desenfileira( NO **head, char *nomeresp )  {
 	NO *p;
+	
 	p = *head;
+	
 	if( !p ){  //Fila vazia
 		strcpy( nomeresp, ""); 
 		return;
 		}
-	strcpy( nomeresp, p->nome );
-	*head = p->prox;
-	free( p );
+	
+    strcpy( nomeresp, p->nome );
+    *head = p->prox;
+
+    if(p->prox)
+        p->prox->ant = NULL;
+    free(p);
 }
 
 void espia( NO *fila, char *nomeresp ) {
-	if( fila == NULL ){
+	NO *p;
+	
+	p=fila;
+	if( p == NULL ){
 		strcpy( nomeresp, ""); 
 		return;
 		}
-	strcpy( nomeresp, fila->nome);
+	strcpy( nomeresp, p->nome);
 }
 
 void imprimeInverso(NO *fila){
     NO *p;
+
     p = fila;
     if(!p) {
         printf("\nLista vazia.\n");
         return;
     }
-	imprimeRecur( fila, fila );
+    while( p->prox )
+        p = p->prox;
+    while( p ){
+        printf("%s\n", p->nome);
+        p = p->ant;
+    }
 }
-
-void imprimeRecur(NO *fila, NO * corrente) {
-	if( corrente->prox == NULL ){
-		printf("%s\n", corrente->nome);
-		return;
-	}
-	imprimeRecur( fila, corrente->prox );
-	printf("%s\n",corrente->nome);
-}
-
 void imprimeOrdenado(NO *fila){
-    NO *p;
+     NO *p;
+
     p = fila;
     if(!p) {
         printf("\nLista vazia.\n");
@@ -81,14 +91,14 @@ void imprimeOrdenado(NO *fila){
 int main() {
 	NO *fila;
 	char n[80];
-	char prompt[] = "\nFILA\nI - insere, R - retira, O - olha, P/Q - imprime, S - sai\n";
+    char prompt[] = "\nFILA\nI - insere, R - retira, O - olha, P/Q - imprime, S - sai\n";
 	char resp[5];
 	
-	fila = NULL;
+    fila = NULL;
+
 	printf(prompt);
-	
 	while( 1 ) {
-		printf("\n >> ");
+		printf("\n>> ");
 		fgets( resp, 4, stdin);
 		
 		switch(toupper(resp[0])) {
@@ -110,11 +120,11 @@ int main() {
             break;
         case 'Q':
             imprimeInverso( fila );
-            break; 
+            break;           
 		case 'S':
 			return 0;
 		default:
-			printf("\nI - insere, R - retira, O - olha, S - sai\n\n>> ");
+    		printf(prompt);
 			break;
 		}
 	}

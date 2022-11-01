@@ -1,9 +1,11 @@
-// listasl.h
-// Estrutura e protótipos de funções de EAD que utilizam Listas simplesmente ligadas
+// listadl.h
+// Estrutura e protótipos de funções de 
+// EAD que utilizam Listas duplamente ligadas
 
 typedef struct No {
 	char nome[80];
 	struct No *prox;
+    struct No *ant;
 } NO;
 
 // Protótipos de funções para Lista 
@@ -12,8 +14,6 @@ void insereNo( NO **, char * );
 void imprimeLista( NO * );
 void imprimeOrdenado(NO *);
 void imprimeInverso(NO *);
-void imprimeRecur(NO *, NO *);
-
 
 // Protótipos de funções para Fila
 void enfileira( NO **, char * );
