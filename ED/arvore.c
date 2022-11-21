@@ -7,6 +7,37 @@ int geranum(){
     return rand()%100;
 }
 
+int fb( NO *subraiz ) {
+	return altura(subraiz->filhoD) - altura(subraiz->filhoE);	
+}
+
+void rotacaoDireita( NO **subraiz ) {
+	NO *u;
+	
+	u = (*subraiz)->filhoE;	
+	(*subraiz)->filhoE = u->filhoD;
+	u->filhoD = *subraiz;
+	*subraiz = u;
+}
+
+NO *encontra(NO *raiz, int query ) {
+	if( ! raiz )   // raiz é NULL
+		return NULL;
+	
+	if( raiz->dado == query )
+		return raiz;
+	if( raiz->dado > query ) {
+		return encontra( raiz->filhoE, query);
+	}
+	else {   // Menor
+		return encontra( raiz->filhoD, query);
+	}
+}
+
+
+
+
+
 void insere(NO **r, int valor){
     NO *novoNo;
 
@@ -49,20 +80,50 @@ void erd(NO *r) {
     erd(r->filhoD);
 }
 
+void erdFB(NO *r) {
+    if( r==NULL ) return;
+
+    erdFB(r->filhoE);
+    printf("%d FB: %d\n", r->dado, fb(r) );
+    erdFB(r->filhoD);
+}
 
 int main() {
     NO *raiz=NULL;
+    NO *p;
+    
     int n;
 
-    for( int i=0; i<40; i++){
-        n = geranum();
-        printf("%d ", n);
-        insere( &raiz, n);
+//    for( int i=0; i<40; i++){
+//        n = geranum();
+//        printf("%d ", n);
+//        insere( &raiz, n);
+//    }
+//   printf("\n\n");
+//    printf("Altura da árvore binária: %d \n\n", altura(raiz));
+//
+//    erd(raiz);  
+//    printf("Altura da árvore binária: %d \n\n", altura(raiz));
+
+    insere( &raiz, 42);
+    insere( &raiz, 88); 
+    insere( &raiz, 15);
+    insere( &raiz, 6);   
+    insere( &raiz, 27);   
+    insere( &raiz, 4);   
+     
+    erdFB(raiz);  
+    
+    //p = encontra(raiz, 42);
+    if( !p ) {
+    	printf("Valor não encontrado.\n\n");
+    	return -1;
     }
-    printf("\n\n");
+    
+    rotacaoDireita( &raiz );
+    printf("\napós rotação direita\n");
+    erdFB(raiz);  
+    	
 
-    printf("Altura da árvore binária: %d \n\n", altura(raiz));
-
-    erd(raiz);
 
 }
