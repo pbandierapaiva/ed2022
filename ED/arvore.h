@@ -13,6 +13,7 @@ int geranum();
 int fb( NO *subraiz );
 NO *encontra(NO *raiz, int query );
 void rotacaoDireita( NO **subraiz );
+void rotacaoEsquerda( NO **subraiz );
 void insere(NO **r, int valor);
 int altura(NO *r);
 void erd(NO *r);

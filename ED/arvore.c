@@ -11,12 +11,49 @@ int fb( NO *subraiz ) {
 	return altura(subraiz->filhoD) - altura(subraiz->filhoE);	
 }
 
+NO *naoAVL( NO *no ) {
+    int fator;
+    NO *ptr;
+
+    fator = fb( no );
+    if( fator > 1 || fator < -1 )
+        return no;
+    if( no->filhoE ) {
+        ptr = naoAVL(no->filhoE);
+        if( ptr ) return ptr;
+    }
+    if( no->filhoD ) {
+        ptr = naoAVL(no->filhoD);
+        if( ptr ) return ptr;
+    }
+    return 0;
+}
+
 void rotacaoDireita( NO **subraiz ) {
 	NO *u;
 	
 	u = (*subraiz)->filhoE;	
 	(*subraiz)->filhoE = u->filhoD;
 	u->filhoD = *subraiz;
+	*subraiz = u;
+}
+
+void rotacaoDuplaDireita( NO **subraiz ) {
+    rotacaoEsquerda( &( (*subraiz)->filhoE ));
+    rotacaoDireita( subraiz );
+}
+
+void rotacaoDuplaEsquerda( NO **subraiz ) {
+    rotacaoDireita( &( (*subraiz)->filhoE ));
+    rotacaoEsquerda( subraiz );
+}
+
+void rotacaoEsquerda( NO **subraiz ) {
+	NO *u;
+	
+	u = (*subraiz)->filhoD;	
+	(*subraiz)->filhoD = u->filhoE;
+	u->filhoE = *subraiz;
 	*subraiz = u;
 }
 
@@ -72,6 +109,18 @@ int altura(NO *r) {
     return altD + 1;
 }
 
+NO *encontraPai( NO *q, NO **raiz ){
+    NO *pai;
+
+    if( q=(*raiz) )
+        return *raiz;
+    pai = encontraPai( q, &( (*raiz)->filhoE) );
+    if( pai ) return pai;
+    pai = encontraPai( q, &((*raiz)->filhoD) );
+    if( pai ) return pai;
+    return 0;
+}
+
 void erd(NO *r) {
     if( r==NULL ) return;
 
@@ -90,7 +139,7 @@ void erdFB(NO *r) {
 
 int main() {
     NO *raiz=NULL;
-    NO *p;
+    NO *p, *paux;
     
     int n;
 
@@ -106,23 +155,64 @@ int main() {
 //    printf("Altura da árvore binária: %d \n\n", altura(raiz));
 
     insere( &raiz, 42);
-    insere( &raiz, 88); 
+    insere( &raiz, 88);  
     insere( &raiz, 15);
     insere( &raiz, 6);   
     insere( &raiz, 27);   
-    insere( &raiz, 4);   
-     
+    insere( &raiz, 30);   
+
     erdFB(raiz);  
-    
-    //p = encontra(raiz, 42);
-    if( !p ) {
-    	printf("Valor não encontrado.\n\n");
-    	return -1;
+
+    while( 1 ) {
+        p = naoAVL(raiz);
+        if( !p )
+            break;
+        paux = encontraPai( p, &raiz ); 
+        if( !paux ){
+            printf("Erro - pai não encontrado");
+            return 0;
+        }
+
+        if( fb( paux ) > 1 ) {
+            if( fb(paux->filhoD)<0 )
+                rotacaoDuplaEsquerda( &paux );
+            else    
+                rotacaoEsquerda( &paux );
+        }
+        else {
+            if( fb(paux->filhoE)<0 )
+                rotacaoDuplaDireita( &paux );
+            else    
+                rotacaoDireita( &paux );
+        }
     }
-    
-    rotacaoDireita( &raiz );
-    printf("\napós rotação direita\n");
+
+    printf("Após operação AVL\n\n");
     erdFB(raiz);  
+
+
+
+    // p = naoAVL(raiz);
+    // if( p ) 
+    //     printf("Árvore NÃO AVL no nó %d\n ", p->dado);
+    // else
+    //     printf("Árvore AVL");
+
+    // //p = encontra(raiz, 42);
+    // // if( !p ) {
+    // // 	printf("Valor não encontrado.\n\n");
+    // // 	return -1;
+    // // }
+    
+    // rotacaoDuplaDireita( &raiz );
+    // printf("\napós rotação dupla direita\n");
+    // erdFB(raiz);  
+ 
+    // p = naoAVL(raiz);
+    // if( p ) 
+    //     printf("Árvore NÃO AVL no nó %d\n ", p->dado);
+    // else
+    //     printf("Árvore AVL");
     	
 
 
